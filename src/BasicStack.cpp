@@ -1,3 +1,4 @@
+#include "stack.h"
 #include "basic_stack.h"
 
 void debug_stamp(std::string s){
