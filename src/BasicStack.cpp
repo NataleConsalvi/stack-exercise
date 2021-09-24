@@ -11,7 +11,7 @@ int BasicStack::size() const {
 
 std::string BasicStack::as_string() const {
     debug_stamp("printing stack");
-    return string("BasicStack: ") + string("cap = 4 ") + string("elements: '") + this->s + "'";
+    return string("BasicStack: ") + string("elements: '") + this->s + "'";
 }
 
 bool BasicStack::is_empty() const {
