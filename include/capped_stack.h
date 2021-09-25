@@ -2,10 +2,19 @@
 #define CAPPED_STACK_H
 
 #include <iostream>
+#include <string>
+#include <sstream>
 #include "stack.h"
 #include "basic_stack.h"
+#include <vector>
+#include <algorithm>
 
-class CappedStack: public BasicStack{
+
+using std::string;
+using std::vector;
+
+template <typename T>
+class CappedStack: public BasicStack<T>{
     private:
         int cap;
     
@@ -16,7 +25,7 @@ class CappedStack: public BasicStack{
           
            - if cap <= 0, throws a std::invalid_argument
        */   
-        CappedStack(const int cap);
+        CappedStack<T>(const int cap);
 
         /** Return a string like 
           
@@ -29,7 +38,7 @@ class CappedStack: public BasicStack{
                - If stack size is already at cap value, new item is silently discarded
           
        */
-       virtual void push(const char c);
+       virtual void push(const T c);
  
  
        /** RETURN the cap of the stack
@@ -49,6 +58,55 @@ class CappedStack: public BasicStack{
 
 };
 
+template <typename T>
+CappedStack<T>::CappedStack(const int cap){
+    if(cap <= 0){
+        throw std::invalid_argument("cap is null or negative!");
+    }else{
+        this->vec = vector<T>();
+        this->cap = cap;
+    }
+}
+
+template <typename T>
+string CappedStack<T>::as_string() const {
+
+    debug_stamp("printing stack");
+    string s = "CapppedStack: cap = ";
+    s += std::to_string(cap);
+    s += " elements: ";
+    std::stringstream ss;
+    for(int i = 0; i < this->vec.size(); i++){
+        ss << this->vec[i];
+    }
+    s += ss.str();
+    return s;
+}
+
+template <typename T>
+void CappedStack<T>::push(const T c) {
+    debug_stamp(string("adding element at the end of stack"));
+    if(this->vec.size() < this->cap){
+        this->vec.push_back(c);
+    }else{
+
+    }
+}
+
+template <typename T>
+void CappedStack<T>::set_cap(const int cap) {
+    debug_stamp(string("resetting cap = ") + std::to_string(cap));
+    if(cap < 1){
+        throw std::invalid_argument("cap is null or negative!");
+    }
+    if(cap < this->vec.size()){
+        this->vec = {this->vec.begin(),this->vec.begin() + cap};
+        this->cap = cap;
+    }else{
+        this->cap = cap;
+    }
+
+}
 
 
 #endif //CAPPED_STACK_H
